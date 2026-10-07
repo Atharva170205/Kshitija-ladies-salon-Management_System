@@ -1,0 +1,20 @@
+# Build output
+target/
+*.class
+
+# IDE files
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets — never commit these
+src/main/resources/whatsapp.properties
+src/main/resources/groq.properties
+src/main/resources/razorpay.properties

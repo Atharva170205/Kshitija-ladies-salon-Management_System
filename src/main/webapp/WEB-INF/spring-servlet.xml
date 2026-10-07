@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           classpath:org/springframework/beans/factory/xml/spring-beans.xsd
+           http://www.springframework.org/schema/mvc
+           classpath:org/springframework/web/servlet/config/spring-mvc.xsd
+           http://www.springframework.org/schema/context
+           classpath:org/springframework/context/config/spring-context.xsd
+           http://www.springframework.org/schema/tx
+           classpath:org/springframework/transaction/config/spring-tx.xsd">
+    <!-- Enable @Controller, @Service, @Repository annotations -->
+    <context:component-scan base-package="com.rt"/>
+    <context:property-placeholder
+    location="classpath:razorpay.properties,classpath:whatsapp.properties,classpath:groq.properties"/>
+    <!-- DataSource Bean -->
+      <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/Saloondb?useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Atharva@170205"/>
+      </bean>   
+
+    <!-- JdbcTemplate Bean -->
+     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+     </bean> 
+     
+     <bean id="transactionManager"
+      class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+</bean>
+
+<tx:annotation-driven transaction-manager="transactionManager"/>
+    <!-- View Resolver -->
+      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+      </bean>   
+      
+       <!-- Enable @Controller, @RequestMapping etc. -->
+    <mvc:annotation-driven/>
+
+    <!-- =====================================================
+         STATIC IMAGE / CSS / JS RESOURCE HANDLER
+         ===================================================== -->
+
+    <mvc:resources
+        mapping="/Web_img/**"
+        location="/Web_img/" />
+      
+
+</beans>
